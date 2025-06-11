@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -17,28 +18,34 @@
             font-family: 'Cairo', sans-serif;
             background-color: #FDFBF8;
         }
+
         .active-nav-button {
             background-color: #8D7B68 !important;
             color: #FFFFFF !important;
             transform: translateY(-2px);
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
         }
+
         .nav-button {
             transition: all 0.2s ease-in-out;
         }
+
         .nav-button:hover {
             transform: translateY(-2px);
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
         }
+
         .modal {
             display: none;
             transition: opacity 0.3s ease;
         }
+
         .modal-content {
             transition: transform 0.3s ease;
         }
     </style>
 </head>
+
 <body class="bg-stone-50 text-stone-800">
 
     <header class="bg-white shadow-md sticky top-0 z-40">
@@ -64,16 +71,21 @@
         </section>
     </main>
 
-    <div id="artwork-modal" class="modal fixed inset-0 bg-black bg-opacity-70 z-50 flex items-center justify-center p-4">
-        <div class="modal-content bg-white rounded-lg shadow-2xl w-full max-w-4xl max-h-[90vh] overflow-y-auto transform scale-95" dir="rtl">
+    <div id="artwork-modal"
+        class="modal fixed inset-0 bg-black bg-opacity-70 z-50 flex items-center justify-center p-4">
+        <div class="modal-content bg-white rounded-lg shadow-2xl w-full max-w-4xl max-h-[90vh] overflow-y-auto transform scale-95"
+            dir="rtl">
             <div class="sticky top-0 bg-white p-4 border-b border-stone-200 flex justify-between items-center">
                 <h3 id="modal-title" class="text-2xl font-bold text-stone-800"></h3>
-                <button id="modal-close" class="text-3xl text-stone-500 hover:text-stone-800 transition">&times;</button>
+                <button id="modal-close"
+                    class="text-3xl text-stone-500 hover:text-stone-800 transition">&times;</button>
             </div>
             <div class="p-6">
                 <div class="flex flex-col lg:flex-row gap-6">
                     <div class="lg:w-1/2 flex-shrink-0">
-                        <img id="modal-image" src="" alt="Artwork Image" class="w-full h-auto object-contain max-h-[60vh] rounded-md shadow-lg" onerror="this.onerror=null;this.src='https://placehold.co/600x400/eee/ccc?text=Image+Not+Found';">
+                        <img id="modal-image" src="" alt="Artwork Image"
+                            class="w-full h-auto object-contain max-h-[60vh] rounded-md shadow-lg"
+                            onerror="this.onerror=null;this.src='https://placehold.co/600x400/eee/ccc?text=Image+Not+Found';">
                     </div>
                     <div class="lg:w-1/2">
                         <h4 id="modal-artist" class="text-xl font-bold text-stone-700"></h4>
@@ -84,7 +96,7 @@
             </div>
         </div>
     </div>
-    
+
     <script>
         const artworksData = [
             {
@@ -101,26 +113,26 @@
                 movement: "ما بعد الانطباعية",
                 movement_description: "تطورت هذه الحركة بعد الانطباعية، وسعى فنانوها إلى تجاوز قيودها مع الحفاظ على الألوان الزاهية والموضوعات الواقعية، لكنهم أضافوا تركيزًا على الأشكال الهندسية والمحتوى العاطفي.",
                 pieces: [
-                    { title: "طبيعة صامتة مع ستارة", artist: "بول سيزان", year: "1895", description: "مثال على أسلوب سيزان الناضج، حيث يعالج الطبيعة الصامتة بأسلوب هندسي ويستكشف العلاقة بين الأشكال ثنائية وثلاثية الأبعاد.", imageUrl: "https://upload.wikimedia.org/wikipedia/commons/c/c8/Paul_C%C3%A9zanne_-_Still_Life_with_Apples.jpg" },
-                    { title: "جبل سانت فيكتوريا", artist: "بول سيزان", year: "1902-1904", description: "جزء من سلسلة لوحات شهيرة استخدم فيها سيزان الهندسة لوصف الطبيعة وألوانًا مختلفة لتمثيل العمق، مما شكل جسرًا بين الانطباعية والتكعيبية.", imageUrl: "https://upload.wikimedia.org/wikipedia/commons/8/8e/Mont_Sainte-Victoire_by_Paul_C%C3%A9zanne%2C_F1939.67.1.jpg" },
+                    { title: "لا تزال الحياة على الستارة", artist: "بول سيزان", year: "1895", description: "مثال على أسلوب سيزان الناضج، حيث يعالج الطبيعة الصامتة بأسلوب هندسي ويستكشف العلاقة بين الأشكال ثنائية وثلاثية الأبعاد.", imageUrl: "https://www.meisterdrucke.ae/kunstwerke/1000px/Paul_Czanne_-_Still_life_on_the_curtain_Painting_by_Paul_Cezanne_(1839-1906)_-_(MeisterDrucke-1003034).jpg" },
+                    { title: "جبل سانت فيكتوريا", artist: "بول سيزان", year: "1902-1904", description: "جزء من سلسلة لوحات شهيرة استخدم فيها سيزان الهندسة لوصف الطبيعة وألوانًا مختلفة لتمثيل العمق، مما شكل جسرًا بين الانطباعية والتكعيبية.", imageUrl: "https://upload.wikimedia.org/wikipedia/commons/3/30/Paul_Cezanne_La_Montagne_Saint_Victoire_Barnes.jpg" },
                     { title: "المستحمين في أسنيير", artist: "جورج سورا", year: "1884", description: "تُظهر هذه اللوحة الضخمة استخدام سورا لتقنية التنقيط ونظرية الألوان لخلق إحساس بالحيوية والخلود في مشهد ترفيهي على ضفاف نهر السين.", imageUrl: "https://upload.wikimedia.org/wikipedia/commons/e/eb/Baigneurs_a_Asnieres.jpg" },
                     { title: "حقل قمح وشجر السرو", artist: "فينسنت فان جوخ", year: "1889", description: "مثال بارز على أعمال فان جوخ التي تصور الطبيعة بقوة عاطفية، حيث تعبر ضربات الفرشاة الديناميكية والألوان الزاهية عن حيوية المشهد الطبيعي.", imageUrl: "https://upload.wikimedia.org/wikipedia/commons/6/63/Vincent_van_Gogh_-_Wheat_Field_with_Cypresses_-_Google_Art_Project.jpg" },
                     { title: "الرؤيا بعد القداس", artist: "بول غوغان", year: "1888", description: "تصور اللوحة مشهدًا من الكتاب المقدس ليعقوب وهو يصارع ملاكًا، من خلال رؤيا تراها النساء. يتميز العمل باستخدامه الجريء للألوان غير الطبيعية والفضاء المسطح.", imageUrl: "https://upload.wikimedia.org/wikipedia/commons/5/5e/Paul_Gauguin_137.jpg" },
-                    { title: "في مولان روج", artist: "هنري دو تولوز-لوتريك", year: "1892-1895", description: "تصوير للحياة الليلية الباريسية، يجسد لوتريك شخصيات عصره بأسلوب فريد يركز على الخطوط القوية والتكوين غير المتماثل.", imageUrl: "https://upload.wikimedia.org/wikipedia/commons/c/c2/Henri_de_Toulouse-Lautrec_-_At_the_Moulin_Rouge_-_Google_Art_Project.jpg" },
+                    { title: "في مولان روج", artist: "هنري دو تولوز-لوتريك", year: "1892-1895", description: "تصوير للحياة الليلية الباريسية، يجسد لوتريك شخصيات عصره بأسلوب فريد يركز على الخطوط القوية والتكوين غير المتماثل.", imageUrl: "https://upload.wikimedia.org/wikipedia/commons/thumb/1/10/Henri_de_Toulouse-Lautrec_-_At_the_Moulin_Rouge_-_1928.610_-_Art_Institute_of_Chicago.jpg/960px-Henri_de_Toulouse-Lautrec_-_At_the_Moulin_Rouge_-_1928.610_-_Art_Institute_of_Chicago.jpg" },
                     { title: "الصرخة", artist: "إدفارد مونك", year: "1893", description: "تُعتبر هذه اللوحة رمزًا للقلق الوجودي للإنسان الحديث. تجسد اللوحة صرخة داخلية من خلال الألوان الصارخة والخطوط المتموجة التي تشوه الواقع.", imageUrl: "https://upload.wikimedia.org/wikipedia/commons/b/b5/Edvard_Munch_-_The_Scream_-_NG.M.00939_-_National_Museum_of_Art%2C_Architecture_and_Design.jpg" },
-                    { title: "الحلم", artist: "هنري روسو", year: "1910", description: "تصور اللوحة امرأة عارية مستلقية في غابة استوائية خيالية. يجمع العمل بين الواقعية الساذجة والمشهد الحالم، مما يخلق جوًا من الغموض والسحر.", imageUrl: "https://upload.wikimedia.org/wikipedia/commons/5/5a/The_Dream_%28Henri_Rousseau%29.jpg" }
+                    { title: "الحلم", artist: "هنري روسو", year: "1910", description: "تصور اللوحة امرأة عارية مستلقية في غابة استوائية خيالية. يجمع العمل بين الواقعية الساذجة والمشهد الحالم، مما يخلق جوًا من الغموض والسحر.", imageUrl: "https://upload.wikimedia.org/wikipedia/commons/e/eb/Henri_Rousseau_-_Le_R%C3%AAve_-_Google_Art_Project.jpg" }
                 ]
             },
             {
                 movement: "الوحشية، التعبيرية، التكعيبية",
                 movement_description: "حركات فنية طليعية في أوائل القرن العشرين ركزت على استخدام الألوان الصارخة (الوحشية)، والتعبير عن المشاعر الداخلية (التعبيرية)، وتفكيك الأشكال إلى مكوناتها الهندسية (التكعيبية).",
                 pieces: [
-                    { title: "متعة الحياة", artist: "هنري ماتيس", year: "1905-1906", description: "من الأعمال الأساسية للحركة الوحشية، تتميز بألوانها الزاهية والجريئة وتكوينها الذي يحتفي بالحياة والطبيعة بطريقة حسية ومبهجة.", imageUrl: "https://upload.wikimedia.org/wikipedia/en/2/29/Le_bonheur_de_vivre.jpg" },
-                    { title: "بورتريه هانز وإريكا تاييز", artist: "أوسكار كوكوشكا", year: "1909", description: "مثال قوي على التعبيرية، حيث يستخدم كوكوشكا ضربات فرشاة عصبية وألوانًا متنافرة للكشف عن الحالة النفسية الداخلية لموضوعيه.", imageUrl: "https://uploads3.wikiart.org/images/oskar-kokoschka/hans-tietze-and-erica-tietze-conrat-1909.jpg!Large.jpg" },
+                    { title: "متعة الحياة", artist: "هنري ماتيس", year: "1905-1906", description: "من الأعمال الأساسية للحركة الوحشية، تتميز بألوانها الزاهية والجريئة وتكوينها الذي يحتفي بالحياة والطبيعة بطريقة حسية ومبهجة.", imageUrl: "https://m.media-amazon.com/images/I/61-ipfDJ+FL._AC_UF1000,1000_QL80_.jpg" },
+                    { title: "بورتريه هانز وإريكا تاييز", artist: "أوسكار كوكوشكا", year: "1909", description: "مثال قوي على التعبيرية، حيث يستخدم كوكوشكا ضربات فرشاة عصبية وألوانًا متنافرة للكشف عن الحالة النفسية الداخلية لموضوعيه.", imageUrl: "https://www.independentarabia.com/sites/default/files/article/mainimage/2022/10/14/628571-1584837562.jpg" },
                     { title: "اسكتش للموضوع رقم 7", artist: "فاسيلي كاندينسكي", year: "1913", description: "واحدة من أولى اللوحات التجريدية بالكامل في الفن الغربي. سعى كاندينسكي إلى التعبير عن المشاعر والأفكار الروحية من خلال الألوان والأشكال وحدها.", imageUrl: "https://upload.wikimedia.org/wikipedia/commons/b/b4/Vassily_Kandinsky%2C_1913_-_Composition_7.jpg" },
                     { title: "فتيات أفينيون", artist: "بابلو بيكاسو", year: "1907", description: "عمل ثوري يعتبر نقطة انطلاق التكعيبية. قام بيكاسو بتكسير الأجسام والفضاء إلى أشكال هندسية، متحديًا بذلك قرونًا من التقاليد الفنية الأوروبية.", imageUrl: "https://upload.wikimedia.org/wikipedia/en/4/4c/Les_Demoiselles_d%27Avignon.jpg" },
                     { title: "الموسيقيون الثلاثة", artist: "بابلو بيكاسو", year: "1921", description: "ذروة التكعيبية التركيبية، حيث يتم بناء الأشكال من خلال تجميع قطع ملونة ومسطحة مثل قصاصات الورق، مما يخلق تكوينًا معقدًا ومرحًا.", imageUrl: "https://upload.wikimedia.org/wikipedia/en/d/d1/Picasso_three_musicians_moma_2006.jpg" },
-                    { title: "تكوين سوبرماتيزمي", artist: "كازيمير ماليفيتش", year: "1918", description: "مثال جذري على الفن التجريدي، حيث يمثل مربع أبيض على خلفية بيضاء 'درجة الصفر' في الرسم، ويهدف إلى نقل الإحساس النقي بعيدًا عن أي تمثيل.", imageUrl: "https://upload.wikimedia.org/wikipedia/commons/thumb/1/17/Kazimir_Malevich_-_Suprematist_Composition%2C_White_on_White_-_Google_Art_Project.jpg/1024px-Kazimir_Malevich_-_Suprematist_Composition%2C_White_on_White_-_Google_Art_Project.jpg" }
+                    { title: "تكوين سوبرماتيزمي", artist: "كازيمير ماليفيتش", year: "1918", description: "مثال جذري على الفن التجريدي، حيث يمثل مربع أبيض على خلفية بيضاء 'درجة الصفر' في الرسم، ويهدف إلى نقل الإحساس النقي بعيدًا عن أي تمثيل.", imageUrl: "https://upload.wikimedia.org/wikipedia/commons/thumb/1/13/Suprematist_Composition_-_Kazimir_Malevich.jpg/1200px-Suprematist_Composition_-_Kazimir_Malevich.jpg" }
                 ]
             },
             {
@@ -138,12 +150,12 @@
                 movement: "التعبيرية التجريدية",
                 movement_description: "أول حركة فنية أمريكية المنشأ تحقق شهرة عالمية بعد الحرب العالمية الثانية. ركز الفنانون على التعبير العاطفي التلقائي من خلال الرسم الإيمائي أو حقول الألوان الضخمة.",
                 pieces: [
-                    { title: "المغادرة", artist: "ماكس بيكمان", year: "1932-1935", description: "لوحة ثلاثية قوية تستجيب للأجواء السياسية المظلمة في ألمانيا النازية. يصور العمل مشاهد من العنف والأمل، ويرمز إلى رحلة الروح نحو الحرية.", imageUrl: "https://upload.wikimedia.org/wikipedia/en/8/87/Beckmann_Departure.jpg" },
-                    { title: "إيقاع خريفي: رقم 30", artist: "جاكسون بولوك", year: "1950", description: "مثال أيقوني على 'الرسم بالتنقيط'، حيث تخلى بولوك عن الحامل والفرشاة التقليدية ليكون 'جزءًا من اللوحة'، مما خلق شبكة معقدة من الخطوط والألوان.", imageUrl: "https://upload.wikimedia.org/wikipedia/en/0/0a/Autumn_Rhythm_%28Number_30%29.jpg" },
+                    { title: "المغادرة", artist: "ماكس بيكمان", year: "1932-1935", description: "لوحة ثلاثية قوية تستجيب للأجواء السياسية المظلمة في ألمانيا النازية. يصور العمل مشاهد من العنف والأمل، ويرمز إلى رحلة الروح نحو الحرية.", imageUrl: "https://www.meisterdrucke.ae/kunstwerke/500px/Max_Beckmann_-_Abfahrt_-_(MeisterDrucke-1071629).jpg" },
+                    { title: "إيقاع خريفي: رقم 30", artist: "جاكسون بولوك", year: "1950", description: "مثال أيقوني على 'الرسم بالتنقيط'، حيث تخلى بولوك عن الحامل والفرشاة التقليدية ليكون 'جزءًا من اللوحة'، مما خلق شبكة معقدة من الخطوط والألوان.", imageUrl: "https://collectionapi.metmuseum.org/api/collection/v1/iiif/488978/1012539/restricted" },
                     { title: "امرأة ١", artist: "ويليم دي كوننغ", year: "1950-1952", description: "جزء من سلسلة مثيرة للجدل تصور شخصية نسائية متوحشة. يجمع العمل بين التجريد والتمثيل، ويعكس الصراع بين الإعجاب بالمرأة والخوف منها.", imageUrl: "https://upload.wikimedia.org/wikipedia/en/2/2a/Woman_I-Willem_de_Kooning.jpg" },
                     { title: "الكبد هو عرف الديك", artist: "أرشيل غوركي", year: "1944", description: "تعتبر هذه اللوحة ذروة أعمال غوركي، حيث تدمج بين السريالية والتجريد في منظر طبيعي حيوي ومعقد، مليء بالأشكال البيولوجية والرمزية.", imageUrl: "https://upload.wikimedia.org/wikipedia/commons/4/4b/The_Liver_is_the_Cock%27s_Comb.jpg" },
-                    { title: "جسد سيدة - ميتافيزيقا", artist: "جان دوبوفيه", year: "1950", description: "جزء من حركة 'الفن الخام'، تصور هذه اللوحة جسدًا أنثويًا مشوهًا وبدائيًا، متحديًا بذلك معايير الجمال التقليدية ومحتفيًا بالأصالة الفجة.", imageUrl: "https://www.centrepompidou.fr/media/document/00/50/5021.jpg" },
-                    { title: "أوكر وأحمر على أحمر", artist: "مارك روثكو", year: "1954", description: "مثال على لوحات 'حقول الألوان' لروثكو، حيث تطفو مستطيلات كبيرة من الألوان الزاهية لخلق تجربة تأملية وعاطفية عميقة للمشاهد.", imageUrl: "https://uploads1.wikiart.org/images/mark-rothko/ochre-and-red-on-red-1954.jpg!Large.jpg" },
+                    { title: "جسد سيدة - ميتافيزيقا", artist: "جان دوبوفيه", year: "1950", description: "جزء من حركة 'الفن الخام'، تصور هذه اللوحة جسدًا أنثويًا مشوهًا وبدائيًا، متحديًا بذلك معايير الجمال التقليدية ومحتفيًا بالأصالة الفجة.", imageUrl: "https://scontent.ftlv20-2.fna.fbcdn.net/v/t39.30808-6/487398808_676346618380585_6394931134767599703_n.jpg?_nc_cat=102&ccb=1-7&_nc_sid=127cfc&_nc_ohc=4gLv7T6rH_AQ7kNvwHunzSQ&_nc_oc=AdnC_kmJ0G28ac9dKU7pnL0Dyc5L3K1JyiEoFJIyR26Al1kLU17CFIAcWE3DNkIGHh6ZJPHn7aOCryForrQWW1ix&_nc_zt=23&_nc_ht=scontent.ftlv20-2.fna&_nc_gid=0wk4ZsMOScisUMeUGVCAGA&oh=00_AfPDahYbRiZPKXGdgf7RQrBmnsQHIpHVexUZN_LN-8Ljhw&oe=684FD0D7" },
+                    { title: "أوكر وأحمر على أحمر", artist: "مارك روثكو", year: "1954", description: "مثال على لوحات 'حقول الألوان' لروثكو، حيث تطفو مستطيلات كبيرة من الألوان الزاهية لخلق تجربة تأملية وعاطفية عميقة للمشاهد.", imageUrl: "https://m.media-amazon.com/images/I/51Z8Ch2MdxL.jpg" },
                     { title: "إمبراطورة الهند", artist: "فرانك ستيلا", year: "1965", description: "عمل من سلسلة 'اللوحات غير المنتظمة'، يتميز بألوانه الزاهية وأشكاله الهندسية الحادة، مما يؤكد على أن اللوحة هي كائن مسطح له شكل محدد.", imageUrl: "https://uploads5.wikiart.org/images/frank-stella/empress-of-india-1965.jpg!Large.jpg" },
                 ]
             },
@@ -153,7 +165,7 @@
                 pieces: [
                     { title: "علب حساء كامبل", artist: "آندي وارهول", year: "1962", description: "عمل أيقوني في فن البوب، حيث يمثل وارهول منتجًا استهلاكيًا شائعًا بأسلوب يشبه الإنتاج الضخم، مما يطمس الحدود بين الفن والتجارة.", imageUrl: "https://upload.wikimedia.org/wikipedia/en/1/1f/Campbells_Soup_Cans_MOMA.jpg" },
                     { title: "وام!", artist: "روي ليختنشتاين", year: "1963", description: "لوحة مستوحاة من القصص المصورة الحربية، تستخدم نقاط 'بن-داي' والخطوط السميكة لتقليد أسلوب الطباعة التجارية، مع تكبير المشهد إلى حجم ضخم.", imageUrl: "https://upload.wikimedia.org/wikipedia/en/b/b7/Roy_Lichtenstein_Whaam.jpg" },
-                    { title: "أهداف", artist: "جاسبر جونز", year: "1955", description: "عمل يطرح تساؤلات حول طبيعة التمثيل، حيث يمكن رؤية الهدف كصورة وككائن مجرد في نفس الوقت، مما يتحدى المشاهد لإعادة التفكير في ما يراه.", imageUrl: "https://upload.wikimedia.org/wikipedia/en/9/91/Johns-target.jpg" },
+                    { title: "أهداف", artist: "جاسبر جونز", year: "1955", description: "عمل يطرح تساؤلات حول طبيعة التمثيل، حيث يمكن رؤية الهدف كصورة وككائن مجرد في نفس الوقت، مما يتحدى المشاهد لإعادة التفكير في ما يراه.", imageUrl: "https://d1dzh206jt2san.cloudfront.net/posts-content-images/1518612622IwcIi.jpg" },
                     { title: "فيغا-نور", artist: "فيكتور فازاريلي", year: "1969", description: "مثال كلاسيكي على الفن البصري، حيث تخلق شبكة من المربعات والدوائر المشوهة وهمًا قويًا بالانتفاخ والحركة على سطح اللوحة المسطح.", imageUrl: "https://uploads6.wikiart.org/images/victor-vasarely/vega-nor-1969.jpg" },
                     { title: "تيار", artist: "بريدجيت رايلي", year: "1964", description: "باستخدام خطوط متموجة بالأبيض والأسود فقط، تخلق رايلي إحساسًا قويًا بالاهتزاز والحركة، مما يسبب تأثيرًا بصريًا مربكًا ومدهشًا.", imageUrl: "https://www.tate.org.uk/art/images/work/T/T00/T00744_10.jpg" }
                 ]
@@ -162,11 +174,11 @@
                 movement: "الفن المفاهيمي والمعاصر",
                 movement_description: "يُعطي الفن المفاهيمي الأولوية للفكرة أو المفهوم على الجماليات التقليدية أو المهارة الفنية. ويشمل الفن المعاصر مجموعة واسعة من الممارسات الفنية الحالية.",
                 pieces: [
-                    { title: "التكافؤ الخاص I", artist: "دونالد جود", year: "1964", description: "مثال على 'الأشياء المحددة' لجود، حيث يرفض الفنان الوهم والرمزية لصالح الأشكال الصناعية البسيطة التي تؤكد على وجودها المادي في الفضاء.", imageUrl: "https://uploads0.wikiart.org/images/donald-judd/untitled-specific-object-1964.jpg!Large.jpg" },
+                    { title: "التكافؤ الخاص I", artist: "دونالد جود", year: "1964", description: "مثال على 'الأشياء المحددة' لجود، حيث يرفض الفنان الوهم والرمزية لصالح الأشكال الصناعية البسيطة التي تؤكد على وجودها المادي في الفضاء.", imageUrl: "https://images.huffingtonpost.com/2013-06-16-JuddUntitled6x4300ppi-thumb.jpg" },
                     { title: "الكرسي الواحد والثلاثة", artist: "جوزيف كوسوث", year: "1965", description: "عمل مفاهيمي أساسي يستكشف العلاقة بين الشيء (كرسي حقيقي)، وصورته (صورة فوتوغرافية)، وتعريفه (نص معجمي)، متسائلاً عن طبيعة الفن نفسه.", imageUrl: "https://upload.wikimedia.org/wikipedia/commons/0/08/One_and_Three_Chair.jpg" },
                     { title: "الرصيف الحلزوني", artist: "روبرت سميثسون", year: "1970", description: "من أشهر أعمال 'فن الأرض'، وهو رصيف ضخم من الصخور والأرض يمتد بشكل حلزوني في بحيرة سولت الكبرى، ويربط الفن مباشرة بالبيئة الطبيعية.", imageUrl: "https://upload.wikimedia.org/wikipedia/commons/8/84/Spiral-jetty-from-rozel-point.png" },
                     { title: "قطع", artist: "ريشارد سيرا", year: "1981", description: "منحوتة فولاذية ضخمة ومثيرة للجدل تم تركيبها في ساحة فيدرالية. غيرت المنحوتة بشكل جذري كيفية تحرك الناس وتجربتهم للمساحة العامة.", imageUrl: "https://upload.wikimedia.org/wikipedia/en/0/02/Tilted_arc_en.jpg" },
-                    { title: "الغرفة الحمراء (الوالدان)", artist: "لويز بورجوا", year: "1994", description: "جزء من سلسلة 'الخلايا'، وهي مساحات مغلقة تستكشف مواضيع الذاكرة، والألم، والعلاقات الأسرية من خلال تجميع أشياء رمزية.", imageUrl: "https://www.tate.org.uk/art/images/work/T/T06/T06999_10.jpg" },
+                    { title: "الغرفة الحمراء (الوالدان)", artist: "لويز بورجوا", year: "1994", description: "جزء من سلسلة 'الخلايا'، وهي مساحات مغلقة تستكشف مواضيع الذاكرة، والألم، والعلاقات الأسرية من خلال تجميع أشياء رمزية.", imageUrl: "https://www.peterblumgallery.com/custom/media/cache/resolve/enlarge/5df4038ea5aa2c12488b4567/c4f774325f565ef8a1c00e191137d00c.jpeg" },
                     { title: "الاستحالة الفيزيائية للموت...", artist: "داميان هيرست", year: "1991", description: "عمل صادم ومؤثر يتكون من سمكة قرش نمر محفوظة في الفورمالين. يتحدى العمل المشاهد لمواجهة حقيقة الموت بطريقة مباشرة وغير متوقعة.", imageUrl: "https://upload.wikimedia.org/wikipedia/en/3/38/Hirst-Shark.jpg" }
                 ]
             },
@@ -174,11 +186,11 @@
                 movement: "روائع إضافية",
                 movement_description: "مجموعة منتقاة من الأعمال الأيقونية الأخرى التي تركت بصمة لا تُمحى في تاريخ الفن الحديث والمعاصر.",
                 pieces: [
-                    { title: "ليلة النجوم", artist: "فينسنت فان جوخ", year: "1889", description: "واحدة من أشهر اللوحات في العالم، تصور المنظر من نافذة مصحة فان جوخ. تعبر السماء الدوامية عن اضطراباته الداخلية وقوته الروحية.", imageUrl: "https://upload.wikimedia.org/wikipedia/commons/e/ea/Van_Gogh_-_Starry_Night_-_Google_Art_Project.jpg" },
+                    { title: "ليلة النجوم", artist: "فينسنت فان جوخ", year: "1889", description: "واحدة من أشهر اللوحات في العالم، تصور المنظر من نافذة مصحة فان جوخ. تعبر السماء الدوامية عن اضطراباته الداخلية وقوته الروحية.", imageUrl: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTDuXRsUi_vW5fZKRvlB41OoexUjhckdOrURQ&s" },
                     { title: "العروس التي جردها عزابها، حتى", artist: "مارسيل دوشامب", year: "1915-1923", description: "عمل معقد وغامض يُعرف أيضًا باسم 'الزجاجة الكبيرة'. يمثل سردًا رمزيًا معقدًا حول الجنس والرغبة والآلات.", imageUrl: "https://upload.wikimedia.org/wikipedia/en/b/be/Duchamp_LargeGlass.jpg" },
-                    { title: "الثور", artist: "بابلو بيكاسو", year: "1945", description: "سلسلة من 11 مطبوعة حجرية تظهر عملية تجريد شكل الثور تدريجيًا من التمثيل الواقعي إلى بضعة خطوط بسيطة، مما يوضح جوهر الشكل.", imageUrl: "https://www.pablopicasso.org/images/paintings/the-bull.jpg" },
-                    { title: "رقم 1، 1950 (ضباب اللافندر)", artist: "جاكسون بولوك", year: "1950", description: "مثال رائع آخر على أسلوب بولوك في التنقيط، حيث تخلق شبكة كثيفة من الألوان إحساسًا بالعمق والجو، مما يدعو المشاهد إلى الانغماس في اللوحة.", imageUrl: "https://upload.wikimedia.org/wikipedia/en/e/e4/Number_1_1950.jpg" },
-                    { title: "صندوق بريللو", artist: "آندي وارهول", year: "1964", description: "منحوتات تمثل نسخًا طبق الأصل من صناديق الشحن التجارية. يتحدى وارهول فكرة الأصالة الفنية ويسأل: 'ما الذي يجعل شيئًا ما فنًا؟'", imageUrl: "https://upload.wikimedia.org/wikipedia/en/d/d6/Brillo_Box-Warhol.jpg" }
+                    { title: "الثور", artist: "بابلو بيكاسو", year: "1945", description: "سلسلة من 11 مطبوعة حجرية تظهر عملية تجريد شكل الثور تدريجيًا من التمثيل الواقعي إلى بضعة خطوط بسيطة، مما يوضح جوهر الشكل.", imageUrl: "https://ideelart.com/cdn/shop/articles/375_1579705380gVjHu_1_77224514-4698-48c6-a27b-20ee88c7a199.jpg?v=1745238269&width=2048" },
+                    { title: "رقم 1، 1950 (ضباب اللافندر)", artist: "جاكسون بولوك", year: "1950", description: "مثال رائع آخر على أسلوب بولوك في التنقيط، حيث تخلق شبكة كثيفة من الألوان إحساسًا بالعمق والجو، مما يدعو المشاهد إلى الانغماس في اللوحة.", imageUrl: "https://www.a.ubuy.com.kw/productimg/?image=aHR0cHM6Ly9tLm1lZGlhLWFtYXpvbi5jb20vaW1hZ2VzL0kvNjFhQ0tnWkJta0wuX1NTNDAwXy5qcGc.jpg" },
+                    { title: "صندوق بريللو", artist: "آندي وارهول", year: "1964", description: "منحوتات تمثل نسخًا طبق الأصل من صناديق الشحن التجارية. يتحدى وارهول فكرة الأصالة الفنية ويسأل: 'ما الذي يجعل شيئًا ما فنًا؟'", imageUrl: "https://m.media-amazon.com/images/I/71L0wdmVQwL.jpg" }
                 ]
             }
         ];
@@ -187,7 +199,7 @@
         const artworkGrid = document.getElementById('artwork-grid');
         const movementTitle = document.getElementById('movement-title');
         const movementDescription = document.getElementById('movement-description');
-        
+
         const modal = document.getElementById('artwork-modal');
         const modalClose = document.getElementById('modal-close');
         const modalImage = document.getElementById('modal-image');
@@ -195,7 +207,7 @@
         const modalArtist = document.getElementById('modal-artist');
         const modalYear = document.getElementById('modal-year');
         const modalDescription = document.getElementById('modal-description');
-        
+
         let currentMovement = '';
 
         function renderArtworks(movementName) {
@@ -203,7 +215,7 @@
             if (!movementData) return;
 
             currentMovement = movementName;
-            
+
             movementTitle.textContent = movementData.movement;
             movementDescription.textContent = movementData.movement_description;
 
@@ -232,7 +244,7 @@
             modalArtist.textContent = piece.artist;
             modalYear.textContent = piece.year;
             modalDescription.textContent = piece.description;
-            
+
             modal.style.display = 'flex';
             setTimeout(() => {
                 modal.classList.add('opacity-100');
@@ -270,7 +282,7 @@
                 navigationMenu.appendChild(button);
             });
         }
-        
+
         modalClose.addEventListener('click', closeModal);
         modal.addEventListener('click', (e) => {
             if (e.target === modal) {
@@ -287,4 +299,5 @@
 
     </script>
 </body>
+
 </html>
