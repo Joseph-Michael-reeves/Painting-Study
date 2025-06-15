@@ -183,8 +183,8 @@
             border-top: 1px solid rgba(255, 255, 255, 0.1);
         }
 
-        /* Responsive Grid for Cards */
-        .roastery-grid {
+        /* Responsive Grid for Cards - Removed as content will be toggled */
+        /* .roastery-grid {
             display: grid;
             grid-template-columns: 1fr;
             gap: 2.5rem;
@@ -194,7 +194,7 @@
             .roastery-grid {
                 grid-template-columns: repeat(2, 1fr);
             }
-        }
+        } */
 
         /* Text animations */
         .fade-in {
@@ -266,6 +266,80 @@
         * {
             transition: color 0.3s ease, background-color 0.3s ease, border-color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
         }
+
+        /* Button specific styles */
+        .tab-button-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 1.5rem;
+            margin-bottom: 3rem;
+            animation: fadeIn 1s ease forwards;
+            animation-delay: 0.8s; /* Delay after initial text */
+            opacity: 0;
+        }
+
+        .tab-button {
+            background-color: #2a2a2a; /* Secondary background */
+            color: #f0f0f0; /* Primary text */
+            padding: 1rem 2rem;
+            border-radius: 0.75rem;
+            font-weight: 600;
+            cursor: pointer;
+            border: 1px solid #404040; /* Secondary border */
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            flex-grow: 1; /* Allow buttons to grow */
+            max-width: 280px; /* Max width for individual buttons */
+        }
+
+        .tab-button::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(235, 94, 40, 0.2), transparent);
+            transition: left 0.5s ease;
+        }
+
+        .tab-button:hover::before {
+            left: 100%;
+        }
+
+        .tab-button:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 15px rgba(0, 0, 0, 0.3);
+            border-color: #EB5E28; /* Accent color on hover */
+            color: #EB5E28; /* Accent text color on hover */
+        }
+
+        .tab-button.active {
+            background-color: #EB5E28; /* Accent color for active button */
+            color: #1a1a1a; /* Dark text for active button */
+            border-color: #EB5E28;
+            box-shadow: 0 8px 20px rgba(235, 94, 40, 0.4);
+            transform: translateY(-2px); /* Slight lift for active */
+            pointer-events: none; /* Disable clicks on active button */
+        }
+
+        /* Content section hidden by default */
+        .roastery-content {
+            display: none;
+            animation: fadeIn 0.5s ease forwards;
+            padding-top: 1rem; /* Space between button and content */
+        }
+
+        .roastery-content.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
     </style>
 </head>
 <body class="antialiased">
@@ -285,9 +359,17 @@
             </p>
         </section>
 
-        <div class="roastery-grid">
-            <!-- Arabica Egypt Cairo Roastery -->
-            <section id="arabica-egypt">
+        <!-- Buttons for Roastery Selection -->
+        <div class="tab-button-container">
+            <button class="tab-button active" data-target="arabica-egypt-content">Arabica Egypt</button>
+            <button class="tab-button" data-target="arabica-hcmc-content">Arabica Ho Chi Minh</button>
+            <button class="tab-button" data-target="anh-coffee-content">Anh Coffee</button>
+            <button class="tab-button" data-target="klim-coffee-content">Klim Coffee</button>
+        </div>
+
+        <!-- Roastery Content Sections -->
+        <div id="arabica-egypt-content" class="roastery-content active">
+            <section>
                 <div class="card glow">
                     <img src="https://placehold.co/800x300/a0aec0/ffffff?text=Arabica+Egypt+Roastery" alt="Arabica Egypt Cairo Roastery" class="card-image">
                     <div class="card-content">
@@ -359,9 +441,10 @@
                     </div>
                 </div>
             </section>
+        </div>
 
-            <!-- Arabica Ho Chi Minh City Roastery -->
-            <section id="arabica-hcmc">
+        <div id="arabica-hcmc-content" class="roastery-content">
+            <section>
                 <div class="card glow">
                     <img src="https://placehold.co/800x300/cbd5e0/ffffff?text=Arabica+HCMC+Roastery" alt="Arabica Ho Chi Minh City Roastery" class="card-image">
                     <div class="card-content">
@@ -432,9 +515,10 @@
                     </div>
                 </div>
             </section>
+        </div>
 
-            <!-- Anh Coffee Roastery -->
-            <section id="anh-coffee">
+        <div id="anh-coffee-content" class="roastery-content">
+            <section>
                 <div class="card glow">
                     <img src="https://placehold.co/800x300/a0aec0/ffffff?text=Anh+Coffee+Roastery" alt="Anh Coffee Roastery" class="card-image">
                     <div class="card-content">
@@ -503,9 +587,10 @@
                     </div>
                 </div>
             </section>
+        </div>
 
-            <!-- Klim Coffee Roasting Co. -->
-            <section id="klim-coffee">
+        <div id="klim-coffee-content" class="roastery-content">
+            <section>
                 <div class="card glow">
                     <img src="https://placehold.co/800x300/cbd5e0/ffffff?text=Klim+Coffee+Roasting+Co." alt="Klim Coffee Roasting Co." class="card-image">
                     <div class="card-content">
@@ -586,6 +671,7 @@
                 </div>
             </section>
         </div>
+
     </main>
 
     <!-- Footer Section -->
@@ -593,5 +679,42 @@
         <p>&copy; 2024 Roastery Case Studies. All rights reserved.</p>
     </footer>
 
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const buttons = document.querySelectorAll('.tab-button');
+            const contents = document.querySelectorAll('.roastery-content');
+
+            // Function to show a specific tab content
+            function showContent(targetId) {
+                contents.forEach(content => {
+                    if (content.id === targetId) {
+                        content.classList.add('active');
+                    } else {
+                        content.classList.remove('active');
+                    }
+                });
+            }
+
+            // Function to set active button state
+            function setActiveButton(clickedButton) {
+                buttons.forEach(button => {
+                    button.classList.remove('active');
+                });
+                clickedButton.classList.add('active');
+            }
+
+            // Add click listeners to buttons
+            buttons.forEach(button => {
+                button.addEventListener('click', () => {
+                    const targetId = button.dataset.target;
+                    showContent(targetId);
+                    setActiveButton(button);
+                });
+            });
+
+            // Initially show the first content (Arabica Egypt)
+            // The active classes are already set in HTML for the first elements
+        });
+    </script>
 </body>
 </html>
