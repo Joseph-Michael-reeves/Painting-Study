@@ -1,303 +1,597 @@
 <!DOCTYPE html>
-<html lang="ar" dir="rtl">
-
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>رحلة عبر تاريخ الفن</title>
-    <script src="https://cdn.tailwindcss.com"></script>
+    <title>Roastery Case Studies</title>
+    <!-- Tailwind CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <!-- Google Fonts: Playfair Display -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&display=swap" rel="stylesheet">
-    <!-- Chosen Palette: Warm Neutral Gallery -->
-    <!-- Application Structure Plan: The application is designed as an interactive art gallery. The main navigation consists of buttons for each art movement, allowing users to filter the content. The artworks for the selected movement are displayed in a responsive grid. Clicking on an artwork opens a modal window with a larger image and detailed information. This structure was chosen because it's highly visual, intuitive for exploring art, and encourages discovery by allowing users to get an overview of a movement and then dive into specific pieces, which is more engaging than a linear text-based report. -->
-    <!-- Visualization & Content Choices: Report Info: Art movements and artworks with descriptions. -> Goal: Organize & Inform. -> Viz/Presentation Method: Interactive gallery with thumbnail grids and detail modals. -> Interaction: Users click on movement buttons to filter the grid, and click on artwork thumbnails to view details in a modal. -> Justification: This approach transforms the static report into a dynamic, user-driven experience, which is ideal for art exploration. No charts are needed as the content is qualitative. -> Library/Method: Vanilla JavaScript for data handling and interactivity, Tailwind CSS for styling. -->
-    <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..900;1,400..900&display=swap" rel="stylesheet">
+
     <style>
+        /* Base styles from the new stylesheet */
         body {
-            font-family: 'Cairo', sans-serif;
-            background-color: #FDFBF8;
+            font-family: "Playfair Display", serif;
+            font-optical-sizing: auto;
+            font-weight: 600;
+            font-style: normal;
+            background-color: #1a1a1a; /* Dark theme background */
+            color: #f0f0f0; /* Light text */
+            transition: all 0.5s ease;
+            overflow-x: hidden;
         }
 
-        .active-nav-button {
-            background-color: #8D7B68 !important;
-            color: #FFFFFF !important;
-            transform: translateY(-2px);
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        /* Color scheme for dark theme */
+        .text-accent {
+            color: #EB5E28; /* Accent color */
+        }
+        .text-primary {
+            color: #f0f0f0; /* Primary text color */
+        }
+        .text-secondary {
+            color: #b0b0b0; /* Secondary text color */
+        }
+        .bg-secondary {
+            background-color: #2a2a2a; /* Secondary background color for cards/groups */
+        }
+        .border-secondary {
+            border-color: #404040; /* Border color */
+        }
+        .bg-base {
+            background-color: #1a1a1a; /* Base background color */
         }
 
-        .nav-button {
-            transition: all 0.2s ease-in-out;
+        /* Header enhancements */
+        .section-header {
+            background-color: rgba(26, 26, 26, 0.95);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.3s ease;
+            padding: 2.5rem 0;
+            text-align: center;
+            font-size: 3rem;
+            font-weight: 700;
+            border-bottom-left-radius: 1.5rem;
+            border-bottom-right-radius: 1.5rem;
+            margin-bottom: 3rem;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+        }
+        .section-header:hover {
+            background-color: rgba(26, 26, 26, 0.98);
         }
 
-        .nav-button:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        /* Card animations and styling */
+        .card {
+            background-color: #2a2a2a; /* Secondary background */
+            border-radius: 1.5rem;
+            padding: 2rem; /* Increased padding */
+            transition: all 0.3s ease;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2); /* Adjusted shadow for dark theme */
+        }
+        .card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, #EB5E28, transparent);
+            transform: translateX(-100%);
+            transition: transform 0.5s ease;
+        }
+        .card:hover::before {
+            transform: translateX(100%);
+        }
+        .card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4); /* Stronger shadow on hover */
+            border-color: rgba(235, 94, 40, 0.3); /* Accent border on hover */
         }
 
-        .modal {
-            display: none;
-            transition: opacity 0.3s ease;
+        /* Image hover effects */
+        .card-image {
+            width: 100%;
+            height: 300px;
+            object-fit: cover;
+            border-bottom: 1px solid #3a3a3a; /* Darker border */
+            border-top-left-radius: 1.5rem;
+            border-top-right-radius: 1.5rem;
+            transition: transform 0.5s ease; /* For hover effect */
+        }
+        .card:hover .card-image {
+            transform: scale(1.05); /* Zoom effect on image hover */
         }
 
-        .modal-content {
-            transition: transform 0.3s ease;
+
+        .card-title {
+            font-size: 2.25rem;
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+            color: #EB5E28; /* Accent color for titles */
+            text-align: center;
+        }
+        .meta-info {
+            font-size: 0.9rem;
+            color: #b0b0b0; /* Secondary text color */
+            margin-bottom: 1.5rem;
+            text-align: center;
+        }
+        .section-group {
+            background-color: #1f1f1f; /* Slightly darker than card background */
+            border-radius: 1rem;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            border: 1px solid #3a3a3a; /* Darker border */
+            box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.15); /* Stronger inner shadow for depth */
+        }
+        .section-title {
+            font-size: 1.625rem;
+            font-weight: 600;
+            color: #f0f0f0; /* Primary text color */
+            margin-top: 0;
+            margin-bottom: 1rem;
+            border-bottom: 2px solid #EB5E28; /* Accent color for underline */
+            padding-bottom: 0.5rem;
+        }
+        .list-item {
+            margin-bottom: 0.75rem;
+            padding-left: 1.75rem;
+            position: relative;
+            line-height: 1.5;
+            color: #f0f0f0; /* Primary text color for list items */
+        }
+        .list-item::before {
+            content: '✓';
+            position: absolute;
+            left: 0;
+            color: #EB5E28; /* Accent color for checkmark */
+            font-weight: bold;
+            font-size: 1.2rem;
+            top: 0.1rem;
+        }
+        .challenge-solution .list-item::before {
+            content: '•';
+            color: #e53e3e; /* Red for challenges */
+        }
+        .challenge-solution .list-item .solution-text {
+            color: #b0b0b0; /* Secondary text color for solution text */
+        }
+        .challenge-solution .list-item .solution-text::before {
+            content: '→';
+            color: #63b3ed; /* Lighter blue for solutions in dark theme */
+            margin-right: 0.5rem;
+        }
+
+        .footer {
+            background-color: #1a1a1a; /* Base background for footer */
+            color: #b0b0b0; /* Secondary text color */
+            padding: 2.5rem 0;
+            text-align: center;
+            font-size: 1rem;
+            margin-top: 4rem;
+            border-top-left-radius: 1.5rem;
+            border-top-right-radius: 1.5rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        /* Responsive Grid for Cards */
+        .roastery-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 2.5rem;
+        }
+
+        @media (min-width: 768px) {
+            .roastery-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        /* Text animations */
+        .fade-in {
+            opacity: 0;
+            transform: translateY(30px);
+            animation: fadeInUp 1s ease forwards;
+        }
+
+        .fade-in-delay-1 {
+            animation-delay: 0.2s;
+        }
+
+        .fade-in-delay-2 {
+            animation-delay: 0.4s;
+        }
+
+        .fade-in-delay-3 {
+            animation-delay: 0.6s;
+        }
+
+        @keyframes fadeInUp {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Glow effects for cards */
+        .card.glow {
+            box-shadow: 0 0 20px rgba(235, 94, 40, 0.3);
+            transition: box-shadow 0.3s ease;
+        }
+
+        .card.glow:hover {
+            box-shadow: 0 0 30px rgba(235, 94, 40, 0.5);
+        }
+
+        /* Custom scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: #1a1a1a;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: #404040;
+            border-radius: 4px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: #EB5E28;
+        }
+
+        /* Selection styling */
+        ::selection {
+            background-color: rgba(235, 94, 40, 0.3);
+            color: #f0f0f0;
+        }
+
+        /* Focus styles for accessibility */
+        *:focus {
+            outline: 2px solid #EB5E28;
+            outline-offset: 2px;
+        }
+
+        /* Smooth transitions for all interactive elements */
+        * {
+            transition: color 0.3s ease, background-color 0.3s ease, border-color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
         }
     </style>
 </head>
+<body class="antialiased">
 
-<body class="bg-stone-50 text-stone-800">
-
-    <header class="bg-white shadow-md sticky top-0 z-40">
-        <div class="container mx-auto px-4 py-4 text-center">
-            <h1 class="text-4xl font-bold text-stone-700">رحلة عبر تاريخ الفن</h1>
-            <p class="text-stone-500 mt-2">استكشف روائع الفن عبر الحركات الفنية المختلفة</p>
-        </div>
-        <nav id="navigation-menu" class="bg-stone-100 py-3">
-            <div class="container mx-auto px-4">
-                <div class="flex flex-wrap justify-center gap-2">
-                </div>
-            </div>
-        </nav>
+    <!-- Header Section -->
+    <header class="section-header">
+        <h1 class="container mx-auto px-6 lg:px-8 fade-in">Roastery Case Studies Analysis</h1>
     </header>
 
-    <main class="container mx-auto p-4 md:p-8">
-        <section id="movement-introduction" class="mb-8 text-center p-6 bg-white rounded-lg shadow">
-            <h2 id="movement-title" class="text-3xl font-bold text-stone-700 mb-2"></h2>
-            <p id="movement-description" class="text-lg text-stone-600 max-w-4xl mx-auto"></p>
+    <main class="container mx-auto px-4 py-8 lg:px-8">
+
+        <section class="text-center mb-12">
+            <p class="text-xl text-secondary max-w-3xl mx-auto leading-relaxed fade-in fade-in-delay-1">
+                Explore a collection of roastery case studies, highlighting innovative architectural designs,
+                sustainable practices, and unique user experiences. Discover how these spaces blend functionality,
+                aesthetics, and cultural context to create inspiring coffee environments.
+            </p>
         </section>
 
-        <section id="artwork-grid" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-        </section>
-    </main>
+        <div class="roastery-grid">
+            <!-- Arabica Egypt Cairo Roastery -->
+            <section id="arabica-egypt">
+                <div class="card glow">
+                    <img src="https://placehold.co/800x300/a0aec0/ffffff?text=Arabica+Egypt+Roastery" alt="Arabica Egypt Cairo Roastery" class="card-image">
+                    <div class="card-content">
+                        <h2 class="card-title">%Arabica Egypt Cairo Roastery</h2>
+                        <p class="meta-info">Architects: no.10 NOMURA Co., Ltd. | Location: New Cairo City, Egypt | Year: 2024 | Area: 247 m²</p>
 
-    <div id="artwork-modal"
-        class="modal fixed inset-0 bg-black bg-opacity-70 z-50 flex items-center justify-center p-4">
-        <div class="modal-content bg-white rounded-lg shadow-2xl w-full max-w-4xl max-h-[90vh] overflow-y-auto transform scale-95"
-            dir="rtl">
-            <div class="sticky top-0 bg-white p-4 border-b border-stone-200 flex justify-between items-center">
-                <h3 id="modal-title" class="text-2xl font-bold text-stone-800"></h3>
-                <button id="modal-close"
-                    class="text-3xl text-stone-500 hover:text-stone-800 transition">&times;</button>
-            </div>
-            <div class="p-6">
-                <div class="flex flex-col lg:flex-row gap-6">
-                    <div class="lg:w-1/2 flex-shrink-0">
-                        <img id="modal-image" src="" alt="Artwork Image"
-                            class="w-full h-auto object-contain max-h-[60vh] rounded-md shadow-lg"
-                            onerror="this.onerror=null;this.src='https://placehold.co/600x400/eee/ccc?text=Image+Not+Found';">
-                    </div>
-                    <div class="lg:w-1/2">
-                        <h4 id="modal-artist" class="text-xl font-bold text-stone-700"></h4>
-                        <p id="modal-year" class="text-md text-stone-500 mb-4"></p>
-                        <p id="modal-description" class="text-stone-600 leading-relaxed"></p>
+                        <div class="section-group">
+                            <h3 class="section-title">Design Concept & Objectives</h3>
+                            <ul class="list-disc list-inside">
+                                <li class="list-item">Draws inspiration from Egypt's desert landscapes and ancient ruins.</li>
+                                <li class="list-item">Concept of "piling up" with modular limestone blocks creating organic flow.</li>
+                            </ul>
+                        </div>
+
+                        <div class="section-group">
+                            <h3 class="section-title">Context & Site Analysis</h3>
+                            <ul class="list-disc list-inside">
+                                <li class="list-item">Located in U-Venues, blending modern urban development with historical context.</li>
+                            </ul>
+                        </div>
+
+                        <div class="section-group">
+                            <h3 class="section-title">Spatial Organization</h3>
+                            <ul class="list-disc list-inside">
+                                <li class="list-item">Central pathway guides customers through roasting area to seating zones.</li>
+                                <li class="list-item">Modular limestone blocks create distinct zones.</li>
+                            </ul>
+                        </div>
+
+                        <div class="section-group">
+                            <h3 class="section-title">Sustainability & Innovation</h3>
+                            <ul class="list-disc list-inside">
+                                <li class="list-item">Locally sourced limestone reduces emissions and supports local industries.</li>
+                                <li class="list-item">Emphasis on natural materials and passive cooling.</li>
+                            </ul>
+                        </div>
+
+                        <div class="section-group">
+                            <h3 class="section-title">Materials & Construction</h3>
+                            <ul class="list-disc list-inside">
+                                <li class="list-item">800mm modular limestone blocks reflect irregular quarry landscape.</li>
+                                <li class="list-item">Homage to Egypt's natural resources and traditional construction.</li>
+                            </ul>
+                        </div>
+
+                        <div class="section-group">
+                            <h3 class="section-title">Aesthetic & Form</h3>
+                            <ul class="list-disc list-inside">
+                                <li class="list-item">Harmonious blend of traditional and contemporary aesthetics.</li>
+                                <li class="list-item">Natural limestone texture with minimalist forms for a serene atmosphere.</li>
+                            </ul>
+                        </div>
+
+                        <div class="section-group">
+                            <h3 class="section-title">User Experience & Functionality</h3>
+                            <ul class="list-disc list-inside">
+                                <li class="list-item">Immersive space reflecting Egypt's landscape.</li>
+                                <li class="list-item">Thoughtful arrangement enhances coffee-drinking experience.</li>
+                            </ul>
+                        </div>
+
+                        <div class="section-group challenge-solution">
+                            <h3 class="section-title">Challenges & Solutions</h3>
+                            <ul class="list-disc list-inside">
+                                <li class="list-item"><span class="font-semibold text-primary">Challenge:</span> Integrating traditional materials into a modern retail space.</li>
+                                <li class="list-item"><span class="font-semibold text-accent solution-text">Solution:</span> Utilizing modular limestone blocks in a contemporary arrangement.</li>
+                            </ul>
+                        </div>
                     </div>
                 </div>
-            </div>
-        </div>
-    </div>
+            </section>
 
-    <script>
-        const artworksData = [
-            {
-                movement: "الانطباعية",
-                movement_description: "حركة فنية ثورية ظهرت في القرن التاسع عشر، ركزت على التقاط الانطباع اللحظي للمشهد، مع إيلاء اهتمام خاص لتأثير الضوء واللون.",
-                pieces: [
-                    { title: "انطباع، شروق الشمس", artist: "كلود مونيه", year: "1872", description: "العمل الأيقوني الذي اشتق منه اسم الحركة الانطباعية. تصور اللوحة مشهد ميناء لو هافر، وتجسد جوهر الحركة في الأسلوب والموضوع والتأثير.", imageUrl: "https://upload.wikimedia.org/wikipedia/commons/5/59/Monet_-_Impression%2C_Sunrise.jpg" },
-                    { title: "حقول الخشخاش", artist: "كلود مونيه", year: "1890", description: "تُمثل هذه اللوحة مشهدًا طبيعيًا لحقل خشخاش بالقرب من جيفرني، وتنتمي إلى سلسلة من خمس لوحات تصور حقولًا حول جيفرني رسمها مونيه في صيف 1890.", imageUrl: "https://www.meisterdrucke.ae/kunstwerke/1260px/Claude%20Monet%20-%20Poppy%20Field%20-%20%28MeisterDrucke-22353%29.jpg" },
-                    { title: "مقهى في ساحة فولي بيرجير", artist: "إدوارد مانيه", year: "1882", description: "آخر أعمال مانيه الرئيسية. تصور اللوحة مشهدًا في ملهى فولي بيرجير الليلي بباريس، وتظهر التزام مانيه بالواقعية في تصويره المفصل لمشهد معاصر.", imageUrl: "https://upload.wikimedia.org/wikipedia/commons/b/b1/%22Un_Bar_aux_Folies-Berg%C3%A8re%22_by_%C3%89douard_Manet_%281882%29.jpg" },
-                    { title: "راقصة الباليه ذات الأربعة عشر عامًا", artist: "إدغار ديغا", year: "1880-1881", description: "منحوتة ثورية تمثل طالبة شابة. كان العمل منحوتًا في الأصل من الشمع، وعُرض مرتدياً صديرية حقيقية وتنورة باليه وشعرًا مستعارًا.", imageUrl: "https://upload.wikimedia.org/wikipedia/commons/0/00/The_Little_Fourteen-Year-Old_Dancer_MET_DP-14939-005.jpg" }
-                ]
-            },
-            {
-                movement: "ما بعد الانطباعية",
-                movement_description: "تطورت هذه الحركة بعد الانطباعية، وسعى فنانوها إلى تجاوز قيودها مع الحفاظ على الألوان الزاهية والموضوعات الواقعية، لكنهم أضافوا تركيزًا على الأشكال الهندسية والمحتوى العاطفي.",
-                pieces: [
-                    { title: "لا تزال الحياة على الستارة", artist: "بول سيزان", year: "1895", description: "مثال على أسلوب سيزان الناضج، حيث يعالج الطبيعة الصامتة بأسلوب هندسي ويستكشف العلاقة بين الأشكال ثنائية وثلاثية الأبعاد.", imageUrl: "https://www.meisterdrucke.ae/kunstwerke/1000px/Paul_Czanne_-_Still_life_on_the_curtain_Painting_by_Paul_Cezanne_(1839-1906)_-_(MeisterDrucke-1003034).jpg" },
-                    { title: "جبل سانت فيكتوريا", artist: "بول سيزان", year: "1902-1904", description: "جزء من سلسلة لوحات شهيرة استخدم فيها سيزان الهندسة لوصف الطبيعة وألوانًا مختلفة لتمثيل العمق، مما شكل جسرًا بين الانطباعية والتكعيبية.", imageUrl: "https://upload.wikimedia.org/wikipedia/commons/3/30/Paul_Cezanne_La_Montagne_Saint_Victoire_Barnes.jpg" },
-                    { title: "المستحمين في أسنيير", artist: "جورج سورا", year: "1884", description: "تُظهر هذه اللوحة الضخمة استخدام سورا لتقنية التنقيط ونظرية الألوان لخلق إحساس بالحيوية والخلود في مشهد ترفيهي على ضفاف نهر السين.", imageUrl: "https://upload.wikimedia.org/wikipedia/commons/e/eb/Baigneurs_a_Asnieres.jpg" },
-                    { title: "حقل قمح وشجر السرو", artist: "فينسنت فان جوخ", year: "1889", description: "مثال بارز على أعمال فان جوخ التي تصور الطبيعة بقوة عاطفية، حيث تعبر ضربات الفرشاة الديناميكية والألوان الزاهية عن حيوية المشهد الطبيعي.", imageUrl: "https://upload.wikimedia.org/wikipedia/commons/6/63/Vincent_van_Gogh_-_Wheat_Field_with_Cypresses_-_Google_Art_Project.jpg" },
-                    { title: "الرؤيا بعد القداس", artist: "بول غوغان", year: "1888", description: "تصور اللوحة مشهدًا من الكتاب المقدس ليعقوب وهو يصارع ملاكًا، من خلال رؤيا تراها النساء. يتميز العمل باستخدامه الجريء للألوان غير الطبيعية والفضاء المسطح.", imageUrl: "https://upload.wikimedia.org/wikipedia/commons/5/5e/Paul_Gauguin_137.jpg" },
-                    { title: "في مولان روج", artist: "هنري دو تولوز-لوتريك", year: "1892-1895", description: "تصوير للحياة الليلية الباريسية، يجسد لوتريك شخصيات عصره بأسلوب فريد يركز على الخطوط القوية والتكوين غير المتماثل.", imageUrl: "https://upload.wikimedia.org/wikipedia/commons/thumb/1/10/Henri_de_Toulouse-Lautrec_-_At_the_Moulin_Rouge_-_1928.610_-_Art_Institute_of_Chicago.jpg/960px-Henri_de_Toulouse-Lautrec_-_At_the_Moulin_Rouge_-_1928.610_-_Art_Institute_of_Chicago.jpg" },
-                    { title: "الصرخة", artist: "إدفارد مونك", year: "1893", description: "تُعتبر هذه اللوحة رمزًا للقلق الوجودي للإنسان الحديث. تجسد اللوحة صرخة داخلية من خلال الألوان الصارخة والخطوط المتموجة التي تشوه الواقع.", imageUrl: "https://upload.wikimedia.org/wikipedia/commons/b/b5/Edvard_Munch_-_The_Scream_-_NG.M.00939_-_National_Museum_of_Art%2C_Architecture_and_Design.jpg" },
-                    { title: "الحلم", artist: "هنري روسو", year: "1910", description: "تصور اللوحة امرأة عارية مستلقية في غابة استوائية خيالية. يجمع العمل بين الواقعية الساذجة والمشهد الحالم، مما يخلق جوًا من الغموض والسحر.", imageUrl: "https://upload.wikimedia.org/wikipedia/commons/e/eb/Henri_Rousseau_-_Le_R%C3%AAve_-_Google_Art_Project.jpg" }
-                ]
-            },
-            {
-                movement: "الوحشية، التعبيرية، التكعيبية",
-                movement_description: "حركات فنية طليعية في أوائل القرن العشرين ركزت على استخدام الألوان الصارخة (الوحشية)، والتعبير عن المشاعر الداخلية (التعبيرية)، وتفكيك الأشكال إلى مكوناتها الهندسية (التكعيبية).",
-                pieces: [
-                    { title: "متعة الحياة", artist: "هنري ماتيس", year: "1905-1906", description: "من الأعمال الأساسية للحركة الوحشية، تتميز بألوانها الزاهية والجريئة وتكوينها الذي يحتفي بالحياة والطبيعة بطريقة حسية ومبهجة.", imageUrl: "https://m.media-amazon.com/images/I/61-ipfDJ+FL._AC_UF1000,1000_QL80_.jpg" },
-                    { title: "بورتريه هانز وإريكا تاييز", artist: "أوسكار كوكوشكا", year: "1909", description: "مثال قوي على التعبيرية، حيث يستخدم كوكوشكا ضربات فرشاة عصبية وألوانًا متنافرة للكشف عن الحالة النفسية الداخلية لموضوعيه.", imageUrl: "https://www.independentarabia.com/sites/default/files/article/mainimage/2022/10/14/628571-1584837562.jpg" },
-                    { title: "اسكتش للموضوع رقم 7", artist: "فاسيلي كاندينسكي", year: "1913", description: "واحدة من أولى اللوحات التجريدية بالكامل في الفن الغربي. سعى كاندينسكي إلى التعبير عن المشاعر والأفكار الروحية من خلال الألوان والأشكال وحدها.", imageUrl: "https://upload.wikimedia.org/wikipedia/commons/b/b4/Vassily_Kandinsky%2C_1913_-_Composition_7.jpg" },
-                    { title: "فتيات أفينيون", artist: "بابلو بيكاسو", year: "1907", description: "عمل ثوري يعتبر نقطة انطلاق التكعيبية. قام بيكاسو بتكسير الأجسام والفضاء إلى أشكال هندسية، متحديًا بذلك قرونًا من التقاليد الفنية الأوروبية.", imageUrl: "https://upload.wikimedia.org/wikipedia/en/4/4c/Les_Demoiselles_d%27Avignon.jpg" },
-                    { title: "الموسيقيون الثلاثة", artist: "بابلو بيكاسو", year: "1921", description: "ذروة التكعيبية التركيبية، حيث يتم بناء الأشكال من خلال تجميع قطع ملونة ومسطحة مثل قصاصات الورق، مما يخلق تكوينًا معقدًا ومرحًا.", imageUrl: "https://upload.wikimedia.org/wikipedia/en/d/d1/Picasso_three_musicians_moma_2006.jpg" },
-                    { title: "تكوين سوبرماتيزمي", artist: "كازيمير ماليفيتش", year: "1918", description: "مثال جذري على الفن التجريدي، حيث يمثل مربع أبيض على خلفية بيضاء 'درجة الصفر' في الرسم، ويهدف إلى نقل الإحساس النقي بعيدًا عن أي تمثيل.", imageUrl: "https://upload.wikimedia.org/wikipedia/commons/thumb/1/13/Suprematist_Composition_-_Kazimir_Malevich.jpg/1200px-Suprematist_Composition_-_Kazimir_Malevich.jpg" }
-                ]
-            },
-            {
-                movement: "السريالية وفن ما بين الحربين",
-                movement_description: "استكشفت السريالية عوالم الأحلام واللاوعي، متأثرة بنظريات فرويد. بينما شهدت فترة ما بين الحربين ظهور حركات فنية تجريدية صارمة مثل 'دي ستايل'.",
-                pieces: [
-                    { title: "أنا والقرية", artist: "مارك شاغال", year: "1911", description: "لوحة تجمع بين ذكريات الطفولة والفولكلور الروسي والرمزية في تكوين حالم يتحدى المنطق والجاذبية.", imageUrl: "https://upload.wikimedia.org/wikipedia/en/e/e7/Chagall_IandTheVillage.jpg" },
-                    { title: "عارية تنزل السلم، رقم 2", artist: "مارسيل دوشامب", year: "1912", description: "عمل مثير للجدل يجمع بين التكعيبية والمستقبلية لتصوير الحركة الديناميكية لشخصية مجردة، مما أثار ضجة في معرض الأرموري.", imageUrl: "https://upload.wikimedia.org/wikipedia/en/c/c0/Duchamp_-_Nude_Descending_a_Staircase.jpg" },
-                    { title: "تكوين بالأحمر والأزرق والأصفر", artist: "بيت موندريان", year: "1930", description: "مثال رئيسي على حركة 'دي ستايل'، حيث يسعى موندريان إلى تحقيق الانسجام الكوني والتوازن من خلال شبكة من الخطوط المستقيمة والألوان الأساسية.", imageUrl: "https://upload.wikimedia.org/wikipedia/commons/a/a4/Piet_Mondriaan%2C_1930_-_Mondrian_Composition_II_in_Red%2C_Blue%2C_and_Yellow.jpg" },
-                    { title: "إصرار الذاكرة", artist: "سلفادور دالي", year: "1931", description: "واحدة من أشهر اللوحات السريالية، تصور ساعات جيب ذائبة في منظر طبيعي غريب، وترمز إلى نسبية الزمن ومرونته في اللاوعي.", imageUrl: "https://upload.wikimedia.org/wikipedia/en/d/dd/The_Persistence_of_Memory.jpg" },
-                    { title: "آلة تغريد", artist: "بول كلي", year: "1922", description: "عمل يجمع بين البراءة والتهديد، حيث تصور اللوحة آلة هشة تنتج أصواتًا ميكانيكية، مما يثير تساؤلات حول العلاقة بين الطبيعة والتكنولوجيا.", imageUrl: "https://upload.wikimedia.org/wikipedia/commons/0/09/Die_Zwitscher-Maschine_%28Twittering_Machine%29.jpg" }
-                ]
-            },
-            {
-                movement: "التعبيرية التجريدية",
-                movement_description: "أول حركة فنية أمريكية المنشأ تحقق شهرة عالمية بعد الحرب العالمية الثانية. ركز الفنانون على التعبير العاطفي التلقائي من خلال الرسم الإيمائي أو حقول الألوان الضخمة.",
-                pieces: [
-                    { title: "المغادرة", artist: "ماكس بيكمان", year: "1932-1935", description: "لوحة ثلاثية قوية تستجيب للأجواء السياسية المظلمة في ألمانيا النازية. يصور العمل مشاهد من العنف والأمل، ويرمز إلى رحلة الروح نحو الحرية.", imageUrl: "https://www.meisterdrucke.ae/kunstwerke/500px/Max_Beckmann_-_Abfahrt_-_(MeisterDrucke-1071629).jpg" },
-                    { title: "إيقاع خريفي: رقم 30", artist: "جاكسون بولوك", year: "1950", description: "مثال أيقوني على 'الرسم بالتنقيط'، حيث تخلى بولوك عن الحامل والفرشاة التقليدية ليكون 'جزءًا من اللوحة'، مما خلق شبكة معقدة من الخطوط والألوان.", imageUrl: "https://collectionapi.metmuseum.org/api/collection/v1/iiif/488978/1012539/restricted" },
-                    { title: "امرأة ١", artist: "ويليم دي كوننغ", year: "1950-1952", description: "جزء من سلسلة مثيرة للجدل تصور شخصية نسائية متوحشة. يجمع العمل بين التجريد والتمثيل، ويعكس الصراع بين الإعجاب بالمرأة والخوف منها.", imageUrl: "https://upload.wikimedia.org/wikipedia/en/2/2a/Woman_I-Willem_de_Kooning.jpg" },
-                    { title: "الكبد هو عرف الديك", artist: "أرشيل غوركي", year: "1944", description: "تعتبر هذه اللوحة ذروة أعمال غوركي، حيث تدمج بين السريالية والتجريد في منظر طبيعي حيوي ومعقد، مليء بالأشكال البيولوجية والرمزية.", imageUrl: "https://upload.wikimedia.org/wikipedia/commons/4/4b/The_Liver_is_the_Cock%27s_Comb.jpg" },
-                    { title: "جسد سيدة - ميتافيزيقا", artist: "جان دوبوفيه", year: "1950", description: "جزء من حركة 'الفن الخام'، تصور هذه اللوحة جسدًا أنثويًا مشوهًا وبدائيًا، متحديًا بذلك معايير الجمال التقليدية ومحتفيًا بالأصالة الفجة.", imageUrl: "https://scontent.ftlv20-2.fna.fbcdn.net/v/t39.30808-6/487398808_676346618380585_6394931134767599703_n.jpg?_nc_cat=102&ccb=1-7&_nc_sid=127cfc&_nc_ohc=4gLv7T6rH_AQ7kNvwHunzSQ&_nc_oc=AdnC_kmJ0G28ac9dKU7pnL0Dyc5L3K1JyiEoFJIyR26Al1kLU17CFIAcWE3DNkIGHh6ZJPHn7aOCryForrQWW1ix&_nc_zt=23&_nc_ht=scontent.ftlv20-2.fna&_nc_gid=0wk4ZsMOScisUMeUGVCAGA&oh=00_AfPDahYbRiZPKXGdgf7RQrBmnsQHIpHVexUZN_LN-8Ljhw&oe=684FD0D7" },
-                    { title: "أوكر وأحمر على أحمر", artist: "مارك روثكو", year: "1954", description: "مثال على لوحات 'حقول الألوان' لروثكو، حيث تطفو مستطيلات كبيرة من الألوان الزاهية لخلق تجربة تأملية وعاطفية عميقة للمشاهد.", imageUrl: "https://m.media-amazon.com/images/I/51Z8Ch2MdxL.jpg" },
-                    { title: "إمبراطورة الهند", artist: "فرانك ستيلا", year: "1965", description: "عمل من سلسلة 'اللوحات غير المنتظمة'، يتميز بألوانه الزاهية وأشكاله الهندسية الحادة، مما يؤكد على أن اللوحة هي كائن مسطح له شكل محدد.", imageUrl: "https://uploads5.wikiart.org/images/frank-stella/empress-of-india-1965.jpg!Large.jpg" },
-                ]
-            },
-            {
-                movement: "فن البوب والفن البصري",
-                movement_description: "احتفى فن البوب بالثقافة الشعبية والمنتجات الاستهلاكية، بينما استكشف الفن البصري (Op Art) الأوهام البصرية والحيل الإدراكية من خلال الأنماط الهندسية.",
-                pieces: [
-                    { title: "علب حساء كامبل", artist: "آندي وارهول", year: "1962", description: "عمل أيقوني في فن البوب، حيث يمثل وارهول منتجًا استهلاكيًا شائعًا بأسلوب يشبه الإنتاج الضخم، مما يطمس الحدود بين الفن والتجارة.", imageUrl: "https://upload.wikimedia.org/wikipedia/en/1/1f/Campbells_Soup_Cans_MOMA.jpg" },
-                    { title: "وام!", artist: "روي ليختنشتاين", year: "1963", description: "لوحة مستوحاة من القصص المصورة الحربية، تستخدم نقاط 'بن-داي' والخطوط السميكة لتقليد أسلوب الطباعة التجارية، مع تكبير المشهد إلى حجم ضخم.", imageUrl: "https://upload.wikimedia.org/wikipedia/en/b/b7/Roy_Lichtenstein_Whaam.jpg" },
-                    { title: "أهداف", artist: "جاسبر جونز", year: "1955", description: "عمل يطرح تساؤلات حول طبيعة التمثيل، حيث يمكن رؤية الهدف كصورة وككائن مجرد في نفس الوقت، مما يتحدى المشاهد لإعادة التفكير في ما يراه.", imageUrl: "https://d1dzh206jt2san.cloudfront.net/posts-content-images/1518612622IwcIi.jpg" },
-                    { title: "فيغا-نور", artist: "فيكتور فازاريلي", year: "1969", description: "مثال كلاسيكي على الفن البصري، حيث تخلق شبكة من المربعات والدوائر المشوهة وهمًا قويًا بالانتفاخ والحركة على سطح اللوحة المسطح.", imageUrl: "https://uploads6.wikiart.org/images/victor-vasarely/vega-nor-1969.jpg" },
-                    { title: "تيار", artist: "بريدجيت رايلي", year: "1964", description: "باستخدام خطوط متموجة بالأبيض والأسود فقط، تخلق رايلي إحساسًا قويًا بالاهتزاز والحركة، مما يسبب تأثيرًا بصريًا مربكًا ومدهشًا.", imageUrl: "https://bridget-riley.publications.britishart.yale.edu/img/figures/C10.png" }
-                ]
-            },
-            {
-                movement: "الفن المفاهيمي والمعاصر",
-                movement_description: "يُعطي الفن المفاهيمي الأولوية للفكرة أو المفهوم على الجماليات التقليدية أو المهارة الفنية. ويشمل الفن المعاصر مجموعة واسعة من الممارسات الفنية الحالية.",
-                pieces: [
-                    { title: "التكافؤ الخاص I", artist: "دونالد جود", year: "1964", description: "مثال على 'الأشياء المحددة' لجود، حيث يرفض الفنان الوهم والرمزية لصالح الأشكال الصناعية البسيطة التي تؤكد على وجودها المادي في الفضاء.", imageUrl: "https://images.huffingtonpost.com/2013-06-16-JuddUntitled6x4300ppi-thumb.jpg" },
-                    { title: "الكرسي الواحد والثلاثة", artist: "جوزيف كوسوث", year: "1965", description: "عمل مفاهيمي أساسي يستكشف العلاقة بين الشيء (كرسي حقيقي)، وصورته (صورة فوتوغرافية)، وتعريفه (نص معجمي)، متسائلاً عن طبيعة الفن نفسه.", imageUrl: "https://upload.wikimedia.org/wikipedia/commons/0/08/One_and_Three_Chair.jpg" },
-                    { title: "الرصيف الحلزوني", artist: "روبرت سميثسون", year: "1970", description: "من أشهر أعمال 'فن الأرض'، وهو رصيف ضخم من الصخور والأرض يمتد بشكل حلزوني في بحيرة سولت الكبرى، ويربط الفن مباشرة بالبيئة الطبيعية.", imageUrl: "https://upload.wikimedia.org/wikipedia/commons/8/84/Spiral-jetty-from-rozel-point.png" },
-                    { title: "قطع", artist: "ريشارد سيرا", year: "1981", description: "منحوتة فولاذية ضخمة ومثيرة للجدل تم تركيبها في ساحة فيدرالية. غيرت المنحوتة بشكل جذري كيفية تحرك الناس وتجربتهم للمساحة العامة.", imageUrl: "https://upload.wikimedia.org/wikipedia/en/0/02/Tilted_arc_en.jpg" },
-                    { title: "الغرفة الحمراء (الوالدان)", artist: "لويز بورجوا", year: "1994", description: "جزء من سلسلة 'الخلايا'، وهي مساحات مغلقة تستكشف مواضيع الذاكرة، والألم، والعلاقات الأسرية من خلال تجميع أشياء رمزية.", imageUrl: "https://www.peterblumgallery.com/custom/media/cache/resolve/enlarge/5df4038ea5aa2c12488b4567/c4f774325f565ef8a1c00e191137d00c.jpeg" },
-                    { title: "الاستحالة الفيزيائية للموت...", artist: "داميان هيرست", year: "1991", description: "عمل صادم ومؤثر يتكون من سمكة قرش نمر محفوظة في الفورمالين. يتحدى العمل المشاهد لمواجهة حقيقة الموت بطريقة مباشرة وغير متوقعة.", imageUrl: "https://upload.wikimedia.org/wikipedia/en/3/38/Hirst-Shark.jpg" }
-                ]
-            },
-            {
-                movement: "روائع إضافية",
-                movement_description: "مجموعة منتقاة من الأعمال الأيقونية الأخرى التي تركت بصمة لا تُمحى في تاريخ الفن الحديث والمعاصر.",
-                pieces: [
-                    { title: "ليلة النجوم", artist: "فينسنت فان جوخ", year: "1889", description: "واحدة من أشهر اللوحات في العالم، تصور المنظر من نافذة مصحة فان جوخ. تعبر السماء الدوامية عن اضطراباته الداخلية وقوته الروحية.", imageUrl: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTDuXRsUi_vW5fZKRvlB41OoexUjhckdOrURQ&s" },
-                    { title: "العروس التي جردها عزابها، حتى", artist: "مارسيل دوشامب", year: "1915-1923", description: "عمل معقد وغامض يُعرف أيضًا باسم 'الزجاجة الكبيرة'. يمثل سردًا رمزيًا معقدًا حول الجنس والرغبة والآلات.", imageUrl: "https://upload.wikimedia.org/wikipedia/en/b/be/Duchamp_LargeGlass.jpg" },
-                    { title: "الثور", artist: "بابلو بيكاسو", year: "1945", description: "سلسلة من 11 مطبوعة حجرية تظهر عملية تجريد شكل الثور تدريجيًا من التمثيل الواقعي إلى بضعة خطوط بسيطة، مما يوضح جوهر الشكل.", imageUrl: "https://ideelart.com/cdn/shop/articles/375_1579705380gVjHu_1_77224514-4698-48c6-a27b-20ee88c7a199.jpg?v=1745238269&width=2048" },
-                    { title: "رقم 1، 1950 (ضباب اللافندر)", artist: "جاكسون بولوك", year: "1950", description: "مثال رائع آخر على أسلوب بولوك في التنقيط، حيث تخلق شبكة كثيفة من الألوان إحساسًا بالعمق والجو، مما يدعو المشاهد إلى الانغماس في اللوحة.", imageUrl: "https://www.a.ubuy.com.kw/productimg/?image=aHR0cHM6Ly9tLm1lZGlhLWFtYXpvbi5jb20vaW1hZ2VzL0kvNjFhQ0tnWkJta0wuX1NTNDAwXy5qcGc.jpg" },
-                    { title: "صندوق بريللو", artist: "آندي وارهول", year: "1964", description: "منحوتات تمثل نسخًا طبق الأصل من صناديق الشحن التجارية. يتحدى وارهول فكرة الأصالة الفنية ويسأل: 'ما الذي يجعل شيئًا ما فنًا؟'", imageUrl: "https://m.media-amazon.com/images/I/71L0wdmVQwL.jpg" }
-                ]
-            }
-        ];
+            <!-- Arabica Ho Chi Minh City Roastery -->
+            <section id="arabica-hcmc">
+                <div class="card glow">
+                    <img src="https://placehold.co/800x300/cbd5e0/ffffff?text=Arabica+HCMC+Roastery" alt="Arabica Ho Chi Minh City Roastery" class="card-image">
+                    <div class="card-content">
+                        <h2 class="card-title">%Arabica Ho Chi Minh City Roastery</h2>
+                        <p class="meta-info">Architects: Nguyen Khai Architects & Associates | Location: Ho Chi Minh City, Vietnam | Year: 2024 | Area: 255 m²</p>
 
-        const navigationMenu = document.getElementById('navigation-menu').querySelector('div');
-        const artworkGrid = document.getElementById('artwork-grid');
-        const movementTitle = document.getElementById('movement-title');
-        const movementDescription = document.getElementById('movement-description');
+                        <div class="section-group">
+                            <h3 class="section-title">Design Concept & Objectives</h3>
+                            <ul class="list-disc list-inside">
+                                <li class="list-item">Blends rich heritage with modern aesthetics.</li>
+                                <li class="list-item">Retains traditional base materials, introduces glass blocks and rattan ceilings.</li>
+                            </ul>
+                        </div>
 
-        const modal = document.getElementById('artwork-modal');
-        const modalClose = document.getElementById('modal-close');
-        const modalImage = document.getElementById('modal-image');
-        const modalTitle = document.getElementById('modal-title');
-        const modalArtist = document.getElementById('modal-artist');
-        const modalYear = document.getElementById('modal-year');
-        const modalDescription = document.getElementById('modal-description');
+                        <div class="section-group">
+                            <h3 class="section-title">Context & Site Analysis</h3>
+                            <ul class="list-disc list-inside">
+                                <li class="list-item">Adjacent to iconic landmarks (Central Post Office, Notre Dame Cathedral).</li>
+                            </ul>
+                        </div>
 
-        let currentMovement = '';
+                        <div class="section-group">
+                            <h3 class="section-title">Spatial Organization</h3>
+                            <ul class="list-disc list-inside">
+                                <li class="list-item">Central pathway guides customers; glass partitions divide seating areas.</li>
+                            </ul>
+                        </div>
 
-        function renderArtworks(movementName) {
-            const movementData = artworksData.find(m => m.movement === movementName);
-            if (!movementData) return;
+                        <div class="section-group">
+                            <h3 class="section-title">Sustainability & Innovation</h3>
+                            <ul class="list-disc list-inside">
+                                <li class="list-item">Traditional materials (rattan) and natural light contribute to sustainability.</li>
+                                <li class="list-item">Adaptive reuse minimizes environmental impact.</li>
+                            </ul>
+                        </div>
 
-            currentMovement = movementName;
+                        <div class="section-group">
+                            <h3 class="section-title">Materials & Construction</h3>
+                            <ul class="list-disc list-inside">
+                                <li class="list-item">Stainless steel, exposed aggregate floors, warm wooden accents.</li>
+                                <li class="list-item">Rattan ceiling adds texture and references Vietnamese craftsmanship.</li>
+                            </ul>
+                        </div>
 
-            movementTitle.textContent = movementData.movement;
-            movementDescription.textContent = movementData.movement_description;
+                        <div class="section-group">
+                            <h3 class="section-title">Aesthetic & Form</h3>
+                            <ul class="list-disc list-inside">
+                                <li class="list-item">Industrial vibe softened by natural materials and light.</li>
+                                <li class="list-item">Interplay of shadows through rattan ceiling enhances sensory experience.</li>
+                            </ul>
+                        </div>
 
-            artworkGrid.innerHTML = '';
-            movementData.pieces.forEach(piece => {
-                const card = document.createElement('div');
-                card.className = 'bg-white rounded-lg shadow-lg overflow-hidden transform hover:-translate-y-2 transition-transform duration-300 cursor-pointer';
-                card.innerHTML = `
-                    <img src="${piece.imageUrl}" alt="${piece.title}" class="w-full h-48 object-cover" onerror="this.onerror=null;this.src='https://placehold.co/400x300/eee/ccc?text=Image+Not+Found';">
-                    <div class="p-4">
-                        <h3 class="font-bold text-lg text-stone-800">${piece.title}</h3>
-                        <p class="text-stone-500">${piece.artist}</p>
+                        <div class="section-group">
+                            <h3 class="section-title">User Experience & Functionality</h3>
+                            <ul class="list-disc list-inside">
+                                <li class="list-item">Indoor/outdoor seating with views of historic architecture.</li>
+                                <li class="list-item">Transparent design allows observation of coffee-making process.</li>
+                            </ul>
+                        </div>
+
+                        <div class="section-group challenge-solution">
+                            <h3 class="section-title">Challenges & Solutions</h3>
+                            <ul class="list-disc list-inside">
+                                <li class="list-item"><span class="font-semibold text-primary">Challenge:</span> Balancing modern design with historical context preservation.</li>
+                                <li class="list-item"><span class="font-semibold text-accent solution-text">Solution:</span> Integrating contemporary materials while maintaining traditional structures.</li>
+                            </ul>
+                        </div>
                     </div>
-                `;
-                card.addEventListener('click', () => openModal(piece));
-                artworkGrid.appendChild(card);
-            });
+                </div>
+            </section>
 
-            updateActiveNavButton();
-        }
+            <!-- Anh Coffee Roastery -->
+            <section id="anh-coffee">
+                <div class="card glow">
+                    <img src="https://placehold.co/800x300/a0aec0/ffffff?text=Anh+Coffee+Roastery" alt="Anh Coffee Roastery" class="card-image">
+                    <div class="card-content">
+                        <h2 class="card-title">Anh Coffee Roastery</h2>
+                        <p class="meta-info">Architects: Red5studio | Location: Ho Chi Minh City, Vietnam | Year: 2021 | Area: 374 m²</p>
 
-        function openModal(piece) {
-            modalImage.src = piece.imageUrl;
-            modalImage.alt = piece.title;
-            modalTitle.textContent = piece.title;
-            modalArtist.textContent = piece.artist;
-            modalYear.textContent = piece.year;
-            modalDescription.textContent = piece.description;
+                        <div class="section-group">
+                            <h3 class="section-title">Design Concept & Objectives</h3>
+                            <ul class="list-disc list-inside">
+                                <li class="list-item">Inspired by Vietnam's basalt red soil and cloudy skies.</li>
+                                <li class="list-item">Evokes feeling of being immersed in a floating landscape.</li>
+                                <li class="list-item">Red terracotta bricks and white mesh ceilings for warm atmosphere.</li>
+                            </ul>
+                        </div>
 
-            modal.style.display = 'flex';
-            setTimeout(() => {
-                modal.classList.add('opacity-100');
-                modal.querySelector('.modal-content').classList.remove('scale-95');
-                modal.querySelector('.modal-content').classList.add('scale-100');
-            }, 10);
-        }
+                        <div class="section-group">
+                            <h3 class="section-title">Context & Site Analysis</h3>
+                            <ul class="list-disc list-inside">
+                                <li class="list-item">Central Saigon location with large façade and deep setback.</li>
+                            </ul>
+                        </div>
 
-        function closeModal() {
-            modal.querySelector('.modal-content').classList.remove('scale-100');
-            modal.querySelector('.modal-content').classList.add('scale-95');
-            modal.classList.remove('opacity-100');
-            setTimeout(() => {
-                modal.style.display = 'none';
-            }, 300);
-        }
+                        <div class="section-group">
+                            <h3 class="section-title">Spatial Organization</h3>
+                            <ul class="list-disc list-inside">
+                                <li class="list-item">Connects existing columns with large communal table on first floor.</li>
+                                <li class="list-item">Pathway to outdoor garden on second floor with central atrium.</li>
+                            </ul>
+                        </div>
 
-        function updateActiveNavButton() {
-            const buttons = navigationMenu.querySelectorAll('button');
-            buttons.forEach(button => {
-                if (button.textContent === currentMovement) {
-                    button.classList.add('active-nav-button');
-                } else {
-                    button.classList.remove('active-nav-button');
-                }
-            });
-        }
+                        <div class="section-group">
+                            <h3 class="section-title">Sustainability & Innovation</h3>
+                            <ul class="list-disc list-inside">
+                                <li class="list-item">Locally sourced materials, natural light, and ventilation.</li>
+                            </ul>
+                        </div>
 
-        function setupNavigation() {
-            artworksData.forEach(movement => {
-                const button = document.createElement('button');
-                button.textContent = movement.movement;
-                button.className = 'nav-button px-4 py-2 bg-white text-stone-600 font-semibold rounded-full shadow-sm hover:bg-stone-200 transition';
-                button.addEventListener('click', () => renderArtworks(movement.movement));
-                navigationMenu.appendChild(button);
-            });
-        }
+                        <div class="section-group">
+                            <h3 class="section-title">Materials & Construction</h3>
+                            <ul class="list-disc list-inside">
+                                <li class="list-item">Red terracotta bricks, white iron grid ceiling, navy blue accents, natural wood.</li>
+                            </ul>
+                        </div>
 
-        modalClose.addEventListener('click', closeModal);
-        modal.addEventListener('click', (e) => {
-            if (e.target === modal) {
-                closeModal();
-            }
-        });
+                        <div class="section-group">
+                            <h3 class="section-title">Aesthetic & Form</h3>
+                            <ul class="list-disc list-inside">
+                                <li class="list-item">Curved communal tables and straight brick lines create dynamic environment.</li>
+                            </ul>
+                        </div>
 
-        document.addEventListener('DOMContentLoaded', () => {
-            setupNavigation();
-            if (artworksData.length > 0) {
-                renderArtworks(artworksData[0].movement);
-            }
-        });
+                        <div class="section-group">
+                            <h3 class="section-title">User Experience & Functionality</h3>
+                            <ul class="list-disc list-inside">
+                                <li class="list-item">Fosters community through shared spaces and integrates nature.</li>
+                            </ul>
+                        </div>
 
-    </script>
+                        <div class="section-group challenge-solution">
+                            <h3 class="section-title">Challenges & Solutions</h3>
+                            <ul class="list-disc list-inside">
+                                <li class="list-item"><span class="font-semibold text-primary">Challenge:</span> Transforming a rigid office block into a warm, inviting space.</li>
+                                <li class="list-item"><span class="font-semibold text-accent solution-text">Solution:</span> Utilizing terracotta bricks and a white mesh ceiling.</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Klim Coffee Roasting Co. -->
+            <section id="klim-coffee">
+                <div class="card glow">
+                    <img src="https://placehold.co/800x300/cbd5e0/ffffff?text=Klim+Coffee+Roasting+Co." alt="Klim Coffee Roasting Co." class="card-image">
+                    <div class="card-content">
+                        <h2 class="card-title">Klim Coffee Roasting Co.</h2>
+                        <p class="meta-info">Architects: SuiL | Location: Mount Waverley, Australia | Year: 2024 | Area: 176 m² (Internal: 136 m²; External: 35.1 m²)</p>
+
+                        <div class="section-group">
+                            <h3 class="section-title">Design Concept & Objectives</h3>
+                            <ul class="list-disc list-inside">
+                                <li class="list-item">Core concept: transparency and craftsmanship, using "grid" and "box" spatial language.</li>
+                                <li class="list-item">"The Box" (glazed room) allows full visibility into roasting, turning it into a performative act.</li>
+                                <li class="list-item">Objective: Elevate coffee roasting from backend process to curated, observable experience.</li>
+                            </ul>
+                        </div>
+
+                        <div class="section-group">
+                            <h3 class="section-title">Context & Site Analysis</h3>
+                            <ul class="list-disc list-inside">
+                                <li class="list-item">Suburban Melbourne neighborhood; balances industrial functionality with café aesthetic.</li>
+                                <li class="list-item">Dual purposes: commercial production and hospitality, meeting codes.</li>
+                            </ul>
+                        </div>
+
+                        <div class="section-group">
+                            <h3 class="section-title">Spatial Organization</h3>
+                            <ul class="list-disc list-inside">
+                                <li class="list-item">Co-located café and roastery within tight floor plan.</li>
+                                <li class="list-item">Layout around central transparent "Roast Room," surrounded by seating, retail, kitchen.</li>
+                                <li class="list-item">Bi-folding glass doors open to timber deck for indoor-outdoor extension.</li>
+                            </ul>
+                        </div>
+
+                        <div class="section-group">
+                            <h3 class="section-title">Materials & Construction</h3>
+                            <ul class="list-disc list-inside">
+                                <li class="list-item">Timber elements for warmth; black steel framing for industrial roots.</li>
+                                <li class="list-item">"Roast Box" with glass panels framed in black aluminum.</li>
+                                <li class="list-item">Polished concrete floor for durability.</li>
+                            </ul>
+                        </div>
+
+                        <div class="section-group">
+                            <h3 class="section-title">Aesthetic & Form</h3>
+                            <ul class="list-disc list-inside">
+                                <li class="list-item">Minimalism with raw materiality; clean but honest aesthetic.</li>
+                                <li class="list-item">Contrast between hard (glass, steel, concrete) and soft (timber, fabric) materials.</li>
+                            </ul>
+                        </div>
+
+                        <div class="section-group">
+                            <h3 class="section-title">Sustainability & Innovation</h3>
+                            <ul class="list-disc list-inside">
+                                <li class="list-item">Natural lighting and cross ventilation reduce reliance on artificial systems.</li>
+                                <li class="list-item">Optimized material selection and spatial orientation for energy efficiency.</li>
+                                <li class="list-item">Roasting process visible but thermally and acoustically isolated.</li>
+                            </ul>
+                        </div>
+
+                        <div class="section-group">
+                            <h3 class="section-title">User Experience & Functionality</h3>
+                            <ul class="list-disc list-inside">
+                                <li class="list-item">Patrons experience coffee-making in real-time due to transparent layout.</li>
+                                <li class="list-item">Open floor plan encourages movement; seating caters to individuals and groups.</li>
+                                <li class="list-item">Supports casual consumption and coffee education.</li>
+                            </ul>
+                        </div>
+
+                        <div class="section-group challenge-solution">
+                            <h3 class="section-title">Challenges & Solutions</h3>
+                            <ul class="list-disc list-inside">
+                                <li class="list-item"><span class="font-semibold text-primary">Challenge:</span> Balancing industrial needs with cozy, high-end café aesthetic.</li>
+                                <li class="list-item"><span class="font-semibold text-accent solution-text">Solution:</span> Use of "Roast Box" as visually accessible and functionally isolated environment.</li>
+                                <li class="list-item"><span class="font-semibold">Challenge:</span> Space constraints in integrating multiple programs.</li>
+                                <li class="list-item"><span class="font-semibold text-accent solution-text">Solution:</span> Smart zoning and multi-use central feature.</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <!-- Footer Section -->
+    <footer class="footer">
+        <p>&copy; 2024 Roastery Case Studies. All rights reserved.</p>
+    </footer>
+
 </body>
-
 </html>
